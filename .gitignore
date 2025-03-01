@@ -1,0 +1,6 @@
+# do not commit any file that has sensetive data
+group_vars/all/dev-vault.yml
+group_vars/prod-vault.yml
+group_vars/vars.yml
+group_vars/vault.yml
+group_vars/inventory/production.ini
