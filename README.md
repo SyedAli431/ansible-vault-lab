@@ -146,19 +146,27 @@ The second playbook configure_service.yml sets up a service using the API_key va
 1) Inside of the create_user.yml Ansible playbook include the following:
 
 ---
+
 - hosts: local
+  
   gather_facts: no
 
-  vars_files: #have to implicitly mention the path to these files as the playbook does not know where they are 
+  vars_files: #have to implicitly mention the path to these files as the playbook does not know where they are
+  
     - ../group_vars/all/vars.yml
+    - 
     - ../group_vars/all/vault.yml
 
 
   tasks:
     - name: create a user using encrypted password in vault
+      
       ansible.builtin.user: #user bultin user module to create a new user called Syed and using vault_possword
+      
         name: Taha
+      
         shell: /bin/bash
+      
         password: "{{ user_password }}"
 
 
