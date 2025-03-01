@@ -7,7 +7,7 @@ This lab is made to understand how the feature Ansible Vault works in securing s
 
 **Repository Setup**
 
-    Create a new GitHub repository called "ansible-vault-lab":
+Create a new GitHub repository called "ansible-vault-lab":
 
 GitHub > Repositories > New > Create repository
 
