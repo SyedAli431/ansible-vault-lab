@@ -260,33 +260,34 @@ NOTE: Need to add a vault-id to vault.yml as well for Ansible to be able to reco
 
 **Output**
 
-[sudo] password for SHERNET\ali431: Vault password (common): Vault password (dev): Vault password (prod):
+     [sudo] password for SHERNET\ali431: Vault password (common): Vault password (dev): Vault password (prod):
 
-PLAY [local] *******************************************************************************************************************************************
+     PLAY [local] *******************************************************************************************************************************************
 
-TASK [Install Apache web service] ********************************************************************************************************************** [WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible- core/2.17/reference_appendices/interpreter_discovery.html for more information. ok: [localhost]
+     TASK [Install Apache web service] ********************************************************************************************************************** [WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future      installation of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible- core/2.17/reference_appendices/interpreter_discovery.html for more information. ok: [localhost]
 
-TASK [use API key for web service] ********************************************************************************************************************* ok: [localhost]
+     TASK [use API key for web service] ********************************************************************************************************************* ok: [localhost]
 
-TASK [Restart web service] ***************************************************************************************************************************** changed: [localhost]
+     TASK [Restart web service] ***************************************************************************************************************************** changed: [localhost]
 
-PLAY RECAP ********************************************************************************************************************************************* localhost : ok=3 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
+     PLAY RECAP ********************************************************************************************************************************************* localhost : ok=3 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
 
 When running playbook with multiple vault files, each vaults password will need to be entered when the command executes
 
+
 Example 2) Executing create_user.yml playbook with vault.yml and dev_vault.yml files
 
-sudo ansible-playbook -i ./inventory/production.ini ./playbooks/create_user.yml --vault-id common@prompt --vault-id dev@prompt
+     sudo ansible-playbook -i ./inventory/production.ini ./playbooks/create_user.yml --vault-id common@prompt --vault-id dev@prompt
 
 **Output**
 
-Vault password (common): Vault password (dev):
+     Vault password (common): Vault password (dev):
 
-PLAY [local] *******************************************************************************************************************************************************************************************************
+     PLAY [local] *******************************************************************************************************************************************************************************************************
 
-TASK [create a user using encrypted password in vault] ************************************************************************************************************************************************************* [WARNING]: The input password appears not to have been hashed. The 'password' argument must be encrypted for this module to work properly. [WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information. ok: [localhost]
+     TASK [create a user using encrypted password in vault] ************************************************************************************************************************************************************* [WARNING]: The input password appears not to have been hashed. The        'password' argument must be encrypted for this module to work properly. [WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of that path. See        https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information. ok: [localhost]
 
-PLAY RECAP ********************************************************************************************************************************************************************************************************* localhost : ok=1 changed=0 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
+     PLAY RECAP ********************************************************************************************************************************************************************************************************* localhost : ok=1 changed=0 unreachable=0 failed=0 skipped=0    rescued=0 ignored=0
 
 
 
