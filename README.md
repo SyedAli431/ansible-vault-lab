@@ -238,6 +238,127 @@ it in the /etc/apache2/api_key.conf file.
 The last task "restart web service" is used to restart the apache2 service so that the api_key is intergrated in apache web server configurations.
 
 
+**Multiple Environment Setup**
+
+Depending on the enviroment wether its Development or Production, seperate vault flies can be created to store sensetive data relating to each environment. In
+this section two seperate vault files will be created for each of these environments.
+
+**dev_vault.yml** 
+
+1) Inside of the root directory in repository, execute the following command to create a new encrypted "dev-vault.yml" file
+
+ansible-vault create --vault-id dev@prompt group_vars/all/dev-vault.yml 
+
+vault-id are used to distingush between different enviornments
+
+2) Inside of the "dev_vault.yml" file include the following dev-related variables:
+
+vault_github_token: ghp_YY1
+vault_api_key2: "api_key654321"
+
+3) Update vars.yml with new reference variables pointing to these encrypyted credentials so they can be used in Ansible playbooks:
+
+#refernece dev_vault enviorment variables
+
+github_token: "{{ vault_github_token }}"
+ap_key2: "{{ vault_api_key2 }}"
+
+
+**prod_vault.yml** 
+
+1) Inside of the root directory in repository, execute the following command to create a new encrypted "prod_vault.yml" file
+
+ansible-vault create --vault-id prod@prompt group_vars/all/prod_vault.yml.yml 
+
+vault-id are used to distingush between different enviornments
+
+2) Inside of the "prod_vault.yml" file include the following dev-related variables:
+
+vault_aws_access_key: "PROD: GRAJWLAAWFA"
+
+
+3) Update vars.yml with new reference variables pointing to these encrypyted credentials so they can be used in Ansible playbooks:
+
+#refernce prod_vault enviorment variables
+
+aws_access_key: "{{ vault_aws_access_key }}"
+
+
+**Running Playbooks using different environment credentials**
+
+Multiple vault files can be used when running Ansbile playbooks as each vault my correspond to a differenet enviroment, but a playbook could require 
+values from multiple vaults. This is done by specificying multiple vault files when executing a playbook.
+
+
+Example 1) Exeuting configure_service.yml playbook will all vault files
+
+sudo ansible-playbook -i ./inventory/production.ini ./playbooks/configure_service.yml --vault-id common@prompt --vault-id dev@prompt --vault-id prod@prompt 
+
+NOTE: Need to add a vault-id to vault.yml as well for ansible to be able to recognize it as the prod and dev enviorments both uses vault-id tags.
+Do this by running the command: ansible-vault rekey group_vars/all/vault.yml --new-vault-id common@prompt 
+
+**Output**
+
+[sudo] password for SHERNET\ali431: 
+Vault password (common): 
+Vault password (dev): 
+Vault password (prod): 
+
+PLAY [local] *******************************************************************************************************************************************
+
+TASK [Install Apache web service] **********************************************************************************************************************
+[WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future installation of another
+Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.17/reference_appendices/interpreter_discovery.html for more information.
+ok: [localhost]
+
+TASK [use API key for web service] *********************************************************************************************************************
+ok: [localhost]
+
+TASK [Restart web service] *****************************************************************************************************************************
+changed: [localhost]
+
+PLAY RECAP *********************************************************************************************************************************************
+localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+When running playbook with multiple vault files, each vaults password will need to be entered when the command executes
+
+
+Example 2) Executing create_user.yml playbook with vault.yml and dev_vault files
+
+sudo ansible-playbook -i ./inventory/production.ini ./playbooks/create_user.yml --vault-id common@prompt --vault-id dev@prompt
+
+**Output**
+
+Vault password (common): 
+Vault password (dev): 
+
+PLAY [local] *******************************************************************************************************************************************************************************************************
+
+TASK [create a user using encrypted password in vault] *************************************************************************************************************************************************************
+[WARNING]: The input password appears not to have been hashed. The 'password' argument must be encrypted for this module to work properly.
+[WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
+ok: [localhost]
+
+PLAY RECAP *********************************************************************************************************************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
