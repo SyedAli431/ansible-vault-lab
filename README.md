@@ -201,7 +201,7 @@ Example
 
 If vault passwords are stored in files, ensure that these files are NEVER committed to the repository as they store passwords in plain-text. This can be done by modifying .gitignore file in repository to include:
 
-vault-prod-pass.txt
+     vault-prod-pass.txt
 
 This ensures that the vault_prod-pass.txt file is never committed to the repository.
 
@@ -213,37 +213,40 @@ Depending on the environment whether it’s Development or Production, separate 
 
 Inside of the root directory in repository, execute the following command to create a new encrypted "dev-vault.yml" file
 
-ansible-vault create --vault-id dev@prompt group_vars/all/dev-vault.yml
+     ansible-vault create --vault-id dev@prompt group_vars/all/dev-vault.yml
 
 vault-id are used to distingush between different enviornments
 
-    Inside of the "dev_vault.yml" file include the following dev-related variables:
+Inside of the "dev_vault.yml" file include the following dev-related variables:
 
-vault_github_token: ghp_YY1 vault_api_key2: "api_key654321"
+     vault_github_token: ghp_YY1 
+     vault_api_key2: "api_key654321"
 
-    Update vars.yml with new reference variables pointing to these encrypted credentials so they can be used in Ansible playbooks:
+Update vars.yml with new reference variables pointing to these encrypted credentials so they can be used in Ansible playbooks:
 
-#refernece dev_vault enviorment variables
+     #refernece dev_vault enviorment variables
 
-github_token: "{{ vault_github_token }}" ap_key2: "{{ vault_api_key2 }}"
+     github_token: "{{ vault_github_token }}" 
+     ap_key2: "{{ vault_api_key2 }}"
+
 
 **prod_vault.yml**
 
-    Inside of the root directory in repository, execute the following command to create a new encrypted "prod_vault.yml" file
+Inside of the root directory in repository, execute the following command to create a new encrypted "prod_vault.yml" file
 
-ansible-vault create --vault-id prod@prompt group_vars/all/prod_vault.yml.yml
+     ansible-vault create --vault-id prod@prompt group_vars/all/prod_vault.yml.yml
 
 vault-id are used to distinguish between different environments
 
-    Inside of the "prod_vault.yml" file include the following dev-related variables:
+Inside of the "prod_vault.yml" file include the following dev-related variables:
 
-vault_aws_access_key: "PROD: GRAJWLAAWFA"
+     vault_aws_access_key: "PROD: GRAJWLAAWFA"
 
-    Update vars.yml with new reference variables pointing to these encrypted credentials so they can be used in Ansible playbooks:
+Update vars.yml with new reference variables pointing to these encrypted credentials so they can be used in Ansible playbooks:
 
-#refernce prod_vault enviorment variables
+     #refernce prod_vault enviorment variables
 
-aws_access_key: "{{ vault_aws_access_key }}"
+     aws_access_key: "{{ vault_aws_access_key }}"
 
 **Running Playbooks using different environment credentials**
 
@@ -251,7 +254,7 @@ Multiple vault files can be used when running Ansible playbooks as each vault ma
 
 Example 1) Executing configure_service.yml playbook will all vault files
 
-sudo ansible-playbook -i ./inventory/production.ini ./playbooks/configure_service.yml --vault-id common@prompt --vault-id dev@prompt --vault-id prod@prompt
+     sudo ansible-playbook -i ./inventory/production.ini ./playbooks/configure_service.yml --vault-id common@prompt --vault-id dev@prompt --vault-id prod@prompt
 
 NOTE: Need to add a vault-id to vault.yml as well for Ansible to be able to recognize it as the prod and dev environments both uses vault-id tags. Do this by running the command: ansible-vault rekey group_vars/all/vault.yml --new-vault-id common@prompt
 
