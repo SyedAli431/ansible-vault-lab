@@ -197,7 +197,7 @@ Vault passwords can be stored in separate files so that a user does not need to 
 
 Example
 
-echo "test12345" > vault-prod-pass.txt ansible-playbook -i inventory.ini playbook.yml --vault-password-file vault-prod-pass.txt
+     echo "test12345" > vault-prod-pass.txt ansible-playbook -i inventory.ini playbook.yml --vault-password-file vault-prod-pass.txt
 
 If vault passwords are stored in files, ensure that these files are NEVER committed to the repository as they store passwords in plain-text. This can be done by modifying .gitignore file in repository to include:
 
@@ -211,7 +211,7 @@ Depending on the environment whether it’s Development or Production, separate 
 
 **dev_vault.yml**
 
-    Inside of the root directory in repository, execute the following command to create a new encrypted "dev-vault.yml" file
+Inside of the root directory in repository, execute the following command to create a new encrypted "dev-vault.yml" file
 
 ansible-vault create --vault-id dev@prompt group_vars/all/dev-vault.yml
 
