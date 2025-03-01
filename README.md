@@ -71,6 +71,7 @@ cd ..
 localhost ansible_connection=local
 
 
+
 **Ansible Vault Basic Operations**
 
 1) A encrypted file will be created which is used to store the senesetive data that should not be put in plain-text. This
@@ -236,6 +237,24 @@ The second task "Use API key for web service" takes the encrypted api_key value 
 it in the /etc/apache2/api_key.conf file.
 
 The last task "restart web service" is used to restart the apache2 service so that the api_key is intergrated in apache web server configurations.
+
+
+**Vault Password Managemnet**
+
+Vault passwords can be stored in seperate files so that a user does not need to enter a vaults password every time a playbook is executed. When
+executing the playbook, the file needs to be mentioned:
+
+Example
+
+echo "test12345" > vault-prod-pass.txt
+ansible-playbook -i inventory.ini playbook.yml --vault-password-file vault-prod-pass.txt
+
+If vault passwords are stored in files, ensure that these files are NEVER commited to the repository as they store passwords
+in plain-text. This can be done by modifying .gitignore file in repository to include:
+
+vault-prod-pass.txt 
+
+This ensures that the vault_prod-pass.txt file is never commited to the repository.
 
 
 **Multiple Environment Setup**
