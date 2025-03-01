@@ -109,8 +109,7 @@ In this section, two ansible playbooks are created to see how encrypted credenti
 
 Inside of the create_user.yml Ansible playbook include the following:
 
-hosts: local
-
+    hosts: local
     gather_facts: no
 
     vars_files: #have to implicitly mention the path to these files as the playbook does not know where they are
@@ -128,14 +127,17 @@ hosts: local
         shell: /bin/bash
 
         password: "{{ user_password }}"
+        
 
 The following playbook first specifies the paths to the vars.yml and vault.yml directories using "vars_files" as Ansible does not know their location by default.
 
-It uses the builtin module “user” for creating a new user called Taha. It sets the users default shell to be /bin/bash along with setting the password for user to be the encrypted value specified in the vault.yml file by using the reference variable user_password defined in vars.yml.
+It uses the builtin module “user” for creating a new user called Taha. It sets the users default shell to be /bin/bash along with setting the password for user to be the encrypted value specified in the vault.yml file by 
+using the reference variable user_password defined in vars.yml.
 
-    Run the playbook by using the command:
 
-sudo ansible-playbook -i ./inventory/production.ini ./playbooks/create_user.yml --ask-vault-pass
+Run the playbook by using the command:
+
+        sudo ansible-playbook -i ./inventory/production.ini ./playbooks/create_user.yml --ask-vault-pass
 
 it requires root privileges as it creates a new user on the local system. Both the inventory and playbook file paths need to be specified. The “ask-vault-pass" argument is used to prompt the user to enter the vault password to be able to run the script.
 
