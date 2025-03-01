@@ -51,8 +51,9 @@ Use the following commands to create this structure:
 inside of the production.ini file include the following:
 
     [local] localhost ansible_connection=local
-    
 
+<br>
+    
 **Ansible Vault Basic Operations**
 
 An encrypted file will be created which is used to store sensitive data that should not be put in a plain-text file. This can be done by using the command (Ensure you are in root directory of repository for this)
@@ -100,6 +101,7 @@ Inside this file include the following:
 
 Each variable in vault.yml is referenced by another variable with a similar name. These reference variables (e.g., user_password, api_key, and db_credentials) are used within playbooks when their values are required. This ensures that sensitive data remains encrypted while being accessible within Ansible tasks.
 
+<br>
 
 **Creating Ansible Playbooks that use credentials in vault.yml**
 
@@ -192,6 +194,8 @@ The second task "Use API key for web service" takes the encrypted api_key value 
 
 The last task "restart web service" is used to restart the apache2 service so that the api_key is integrated in the Apache web server configurations.
 
+<br>
+
 **Vault Password Management**
 
 Vault passwords can be stored in separate files so that a user does not need to enter a vaults password every time a playbook is executed. When executing the playbook, the file needs to be mentioned:
@@ -205,6 +209,8 @@ If vault passwords are stored in files, ensure that these files are NEVER commit
      vault-prod-pass.txt
 
 This ensures that the vault_prod-pass.txt file is never committed to the repository.
+
+<br>
 
 **Multiple Environment Setup**
 
@@ -246,8 +252,10 @@ Inside of the "prod_vault.yml" file include the following dev-related variables:
 Update vars.yml with new reference variables pointing to these encrypted credentials so they can be used in Ansible playbooks:
 
      #refernce prod_vault enviorment variables
-
+     
      aws_access_key: "{{ vault_aws_access_key }}"
+
+<br>
 
 **Running Playbooks using different environment credentials**
 
