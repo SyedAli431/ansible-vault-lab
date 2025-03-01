@@ -17,7 +17,7 @@ interact with the Ansbile Vault. Additionally, it will show how to setup Ansible
 
    Click Profile > Settings > Developer settings > Personal access tokens > Token (classic)
 
-   **NOTE**: Enusre that you copy the PAT key and save it somewhere as this is the only time the value can be viewed
+   **NOTE**: Enusre the PAT key value is noted down as it somewhere as this is the only time the value can be viewed
 
 4) Clone the repository to local machine to begin configuration:
 
@@ -65,6 +65,11 @@ touch create_user.yml
 touch configure_service.yml
 cd ..
 
+5) inside of the production.ini file include the following:
+
+[local]
+localhost ansible_connection=local
+
 
 **Ansible Vault Basic Operations**
 
@@ -72,6 +77,9 @@ cd ..
 Can be done by using the command (Ensure you are in root directory of repository for this)
 
 ansible-vault create group_vars/all/vault.yml
+
+A password is created to add additonal protection to the vault.yml file. 
+
 
 2) Inside of this encrypted vault.yml file, the following data is included:
 
@@ -84,8 +92,10 @@ vault_db_credentials:
   username: "db_admin"
   
   password: "db_pass_123"
+  
 
 Each variable defined in the file stores a different credential and will be used in Ansible playbooks later
+
 
 Since the vault.yml file in encrypted, the contents of the file cannot be easily viewed using a cat command:
 
@@ -105,6 +115,72 @@ $ANSIBLE_VAULT;1.2;AES256;common
 
 
 3) To be able to use the credentials stored in the vault.yml file in Ansible playbooks, another file being vars.yml needs to be created which acts a reference to the variables defined in the vault.yml file. The encrypted credentials can then be used.
+
+Navigate to the /groups_vars/all directory and create a file var.yml: 
+
+touch vars.yml
+
+Inside this file include the following:
+
+
+#Reference encrypted variables
+
+user_password: "{{ vault_user_password }}"
+api_key: "{{ vault_api_key }}"
+db_credentials: "{{ vault_db_credentials }}"
+user_name: "{{ username }}"
+pass: "{{ password }} "
+
+
+Each variable in vault.yml is referenced by another variable with a similar name. These reference variables (e.g., user_password, api_key, and db_credentials) are used within playbooks when their values are required. This ensures that sensitive data remains encrypted while being accessible within Ansible tasks.
+
+
+**Creating Ansible Playbooks that use credentials in vault.yml**
+
+In this section, two ansible playbooks are created to see how encrypted credentials in vault.yml can be used by Ansible playbook tasks. The first playbook called create_user.yml creates a new user using the encrypted password specified in the vault.yml file.
+The second playbook configure_service.yml sets up a service using the API_key value specified in the vault.yml file.
+
+
+**create_user.yml**
+
+1) Inside of the create_user.yml Ansible playbook include the following:
+
+---
+- hosts: local
+  gather_facts: no
+
+  vars_files: #have to implicitly mention the path to these files as the playbook does not know where they are 
+    - ../group_vars/all/vars.yml
+    - ../group_vars/all/vault.yml
+
+
+  tasks:
+    - name: create a user using encrypted password in vault
+      ansible.builtin.user: #user bultin user module to create a new user called Syed and using vault_possword
+        name: Taha
+        shell: /bin/bash
+        password: "{{ user_password }}"
+
+
+The following playbook first specifies the paths to the vars.yml and vault.yml directories using "vars_files" as Ansbile does not know there location by default.
+
+It uses the bultin module user for creating a new user called Taha. It sets the users default shell to be /bin/bash along with setting the password for user to be the encrypted value specified in the vault.yml file by using the reference variable user_password defined in vars.yml.
+
+2) Run the playbook by using the command:
+
+sudo ansible-playbook -i ./inventory/production.ini ./playbooks/create_user.yml --ask-vault-pass
+
+it requires root privilages as its creating a new user on the local system. Both the inventory and playbook file paths need to be specified. The "--ask-vault-pass" arugment is used to prompt the user to enter the vault password to be able to run the script.
+
+
+**configure_service.yml**
+
+1) Inside of the configure_service.yml Ansible playbook include the following:
+
+
+
+
+
 
 
 
