@@ -1,0 +1,27 @@
+---
+- hosts: local
+  gather_facts: no
+
+  vars_files: #have to implicitly mention the path to these files as the playbook does not know where they are 
+    - ../group_vars/all/vars.yml
+    - ../group_vars/all/vault.yml
+
+
+  tasks:
+    - name: Install Apache web service
+      apt:
+        name: apache2
+        state: present
+
+    - name: use API key for web service
+      ansible.builtin.copy:
+        content: "API_KEY={{ api_key }}" #takes the api_key value and places it into a api_key.conf file
+        dest: /etc/apache2/api_key.conf
+        mode: "0600" # sets file permisisons on api_key.conf file 
+
+    - name: Restart web service # restart the service after adding api-key to configuration
+      service:
+        name: apache2
+        state: restarted
+
+
