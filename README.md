@@ -50,13 +50,14 @@ The following directory structure is created for this lab:
 
 Use the following commands to create this structure:
 
-mkdir –p group_vars/all touch README.md touch requirements.txt
+     mkdir –p group_vars/all touch README.md touch requirements.txt
 
-mkdir inventory/ cd inventory touch production.ini
+     mkdir inventory/ cd inventory touch production.ini
 
-mkdir playbooks/ cd playbooks touch create_user.yml touch configure_service.yml cd ..
+     mkdir playbooks/ cd playbooks touch create_user.yml touch configure_service.yml cd ..
 
-    inside of the production.ini file include the following:
+
+inside of the production.ini file include the following:
 
 [local] localhost ansible_connection=local
 
