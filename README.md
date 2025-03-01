@@ -146,7 +146,7 @@ it requires root privileges as it creates a new user on the local system. Both t
 
 **configure_service.yml**
 
-    Inside of the configure_service.yml Ansible playbook include the following:
+Inside of the configure_service.yml Ansible playbook include the following:
 
     hosts: local
 
