@@ -24,29 +24,29 @@ Clone the repository to the local machine to begin configuration:
 
 The following directory structure is created for this lab:
 
-ansible-vault-lab/
+     ansible-vault-lab/
 
-├── group_vars/
+     ├── group_vars/
 
-│ └── all/
+     │ └── all/
 
-│ ├── vault.yml (encrypted)
+     │ ├── vault.yml (encrypted)
 
-│ └── vars.yml
+     │ └── vars.yml
 
-├── inventory/
+     ├── inventory/
 
-│ └── production.ini
+     │ └── production.ini
 
-├── playbooks/
+     ├── playbooks/
 
-│ ├── create_user.yml
+     │ ├── create_user.yml
 
-│ └── configure_service.yml
+     │ └── configure_service.yml
 
-├── README.md
+     ├── README.md
 
-└── requirements.txt
+     └── requirements.txt
 
 Use the following commands to create this structure:
 
