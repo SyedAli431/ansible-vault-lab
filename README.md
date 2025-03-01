@@ -9,7 +9,7 @@ This lab is made to understand how the feature Ansible Vault works in securing s
 
 Create a new GitHub repository called "ansible-vault-lab":
 
- GitHub > Repositories > New > Create repository
+   GitHub > Repositories > New > Create repository
 
 Create a PAT token so that all files and directories can be committed to repo later:
 
