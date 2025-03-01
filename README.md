@@ -5,6 +5,7 @@
 
 This lab is made to understand how the feature Ansible Vault works in securing sensitive data within Ansible playbooks such as passwords, API Keys, and SSH keys. This lab will go over the general configuration setup along with seeing how Ansible playbooks interact with the Ansible Vault. Additionally, it will show how to set up Ansible Vaults for multiple environments including Production and Development.
 
+<br>
 
 **Repository Setup**
 
