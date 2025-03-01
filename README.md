@@ -20,7 +20,9 @@ interact with the Ansbile Vault. Additionally, it will show how to setup Ansible
 3) The following directory structure is created for this lab:
 
 ansible-vault-lab/
+
 ├── group_vars/
+
 │   └── all/
 │       ├── vault.yml (encrypted)
 │       └── vars.yml
