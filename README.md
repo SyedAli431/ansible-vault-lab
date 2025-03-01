@@ -13,7 +13,7 @@ Create a new GitHub repository called "ansible-vault-lab":
 
 Create a PAT token so that all files and directories can be committed to repo later:
 
- Click Profile > Settings > Developer settings > Personal access tokens > Token (classic)
+     Click Profile > Settings > Developer settings > Personal access tokens > Token (classic)
 
 **NOTE**: Ensure the PAT key value is noted down somewhere as this is the only time the value can be viewed
 
