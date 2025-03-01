@@ -9,19 +9,19 @@ This lab is made to understand how the feature Ansible Vault works in securing s
 
 Create a new GitHub repository called "ansible-vault-lab":
 
-GitHub > Repositories > New > Create repository
+ GitHub > Repositories > New > Create repository
 
-    Create a PAT token so that all files and directories can be committed to repo later:
+Create a PAT token so that all files and directories can be committed to repo later:
 
-    Click Profile > Settings > Developer settings > Personal access tokens > Token (classic)
+ Click Profile > Settings > Developer settings > Personal access tokens > Token (classic)
 
-    **NOTE**: Ensure the PAT key value is noted down somewhere as this is the only time the value can be viewed
+**NOTE**: Ensure the PAT key value is noted down somewhere as this is the only time the value can be viewed
 
-    Clone the repository to the local machine to begin configuration:
+Clone the repository to the local machine to begin configuration:
 
-git clone https://github.com//ansible-vault-lab.git
+ git clone https://github.com//ansible-vault-lab.git
 
-    The following directory structure is created for this lab:
+The following directory structure is created for this lab:
 
 ansible-vault-lab/
 
