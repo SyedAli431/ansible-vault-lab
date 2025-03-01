@@ -177,10 +177,41 @@ it requires root privilages as its creating a new user on the local system. Both
 
 1) Inside of the configure_service.yml Ansible playbook include the following:
 
+---
+- hosts: local
+  gather_facts: no
+
+  vars_files: #have to implicitly mention the path to these files as the playbook does not know where they are 
+    - ../group_vars/all/vars.yml
+    - ../group_vars/all/vault.yml
 
 
+  tasks:
+    - name: Install Apache web service
+      apt:
+        name: apache2
+        state: present
+
+    - name: use API key for web service
+      ansible.builtin.copy:
+        content: "API_KEY={{ api_key }}" #takes the api_key value and places it into a api_key.conf file
+        dest: /etc/apache2/api_key.conf
+        mode: "0600" # sets file permisisons on api_key.conf file 
+
+    - name: Restart web service # restart the service after adding api-key to configuration
+      service:
+        name: apache2
+        state: restarted
 
 
+The following playbook first specifies the paths to the vars.yml and vault.yml directories using "vars_files" as Ansbile does not know there location by default.
+
+The first task "Install Apache web service" installs the apache2 web service onto the local system
+
+The second task "Use API key for web service" takes the encrypted api_key value that is in vault.yml and stores it into the apache servers configurations by placing 
+it in the /etc/apache2/api_key.conf file.
+
+The last task "restart web service" is used to restart the apache2 service so that the api_key is intergrated in apache web server configurations.
 
 
 
